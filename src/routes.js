@@ -1,7 +1,8 @@
 const routes = require("express").Router();
 
-routes.get("/", (req, res) => {
-	res.json({ teste: "ok" });
-});
+// Controller
+const AppController = require("./controllers/AppController");
+
+routes.get("/", AppController.list);
 
 module.exports = routes;
