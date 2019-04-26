@@ -5,6 +5,10 @@
 	"repository": "https://github.com/VictorManoel/memeview-backend.git",
 	"author": "Victor Manoel <victormsilva2001@gmail.com>",
 	"license": "MIT",
+	"scripts": {
+		"dev": "nodemon src/server.js",
+		"start": "node src/server.js"
+	},
 	"dependencies": {
 		"cors": "^2.8.5",
 		"dotenv": "^7.0.0",
