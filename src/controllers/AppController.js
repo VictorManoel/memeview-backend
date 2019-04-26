@@ -8,9 +8,9 @@ class AppController {
 			const pageToken = index == 1 ? "" : index;
 
 			const { data } = await youtube.playlistItems.list({
-				part: "snippet",
 				playlistId: process.env.PLAYLIST_ID,
-				maxResults: 12,
+				part: "snippet",
+				maxResults: 24,
 				pageToken
 			});
 
@@ -24,12 +24,11 @@ class AppController {
 	// Once video
 	async once(req, res) {
 		try {
-			const { id } = req.params;
-
-			const { data } = await youtube.videos.list({
+			const { data } = await youtube.playlistItems.list({
+				playlistId: process.env.PLAYLIST_ID,
+				videoId: req.params.id,
 				part: "snippet",
-				maxResults: 1,
-				id
+				maxResults: 1
 			});
 
 			const item = data.items[0];
