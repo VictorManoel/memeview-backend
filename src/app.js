@@ -10,10 +10,14 @@ class App {
 	}
 
 	// Middlewares
-	middlewares() {}
+	middlewares() {
+		this.app.use(express.json());
+	}
 
 	// Routes
-	routes() {}
+	routes() {
+		this.app.use("/api", require("./routes"));
+	}
 }
 
 module.exports = new App().app;
