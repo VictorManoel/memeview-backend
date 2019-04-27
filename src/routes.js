@@ -5,6 +5,7 @@ const AppController = require("./controllers/AppController");
 
 // Routes
 routes.get("/", AppController.list);
-routes.get("/:id", AppController.once);
+routes.get("/v/:id", AppController.once);
+routes.get("/more", AppController.more);
 
 module.exports = routes;
