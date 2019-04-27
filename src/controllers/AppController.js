@@ -67,7 +67,6 @@ class AppController {
 
 			// From list of 50 videos, choose 6 randomly to recommendeds
 			const items = await MoreController.getVideos(data);
-			console.log("> lenght: " + items.length);
 
 			return res.status(200).json(items);
 		} catch (error) {
