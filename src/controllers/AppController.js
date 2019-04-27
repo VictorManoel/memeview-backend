@@ -8,14 +8,18 @@ class AppController {
 			const { index = 1 } = req.query;
 			const pageToken = index == 1 ? "" : index;
 
-			const { data } = await youtube.playlistItems.list({
-				playlistId: process.env.PLAYLIST_ID,
-				part: "snippet",
+			// Query
+			const { data } = await youtube({
 				maxResults: 24,
 				pageToken
 			});
 
-			return res.status(200).json(data);
+			const result = {
+				nextPageToken: data.nextPageToken,
+				items: data.items
+			};
+
+			return res.status(200).json(result);
 		} catch (error) {
 			// In case of error
 			console.log(error);
@@ -26,17 +30,16 @@ class AppController {
 	// Once video
 	async once(req, res) {
 		try {
-			const { data } = await youtube.playlistItems.list({
-				playlistId: process.env.PLAYLIST_ID,
+			// Query
+			const { data } = await youtube({
 				videoId: req.params.id,
-				part: "snippet",
 				maxResults: 1
 			});
 
 			const item = data.items[0];
 
 			if (item) {
-				return res.status(200).json(item);
+				return res.status(200).json(item.snippet);
 			} else {
 				return res.status(404).json({ error: "Video not found" });
 			}
@@ -51,11 +54,7 @@ class AppController {
 	async more(req, res) {
 		try {
 			// First query to get the total videos in playlist
-			let { data } = await youtube.playlistItems.list({
-				playlistId: process.env.PLAYLIST_ID,
-				part: "snippet",
-				maxResults: 50
-			});
+			let { data } = await youtube({ maxResults: 50 });
 
 			// Generate radom number for query by total videos in playlist
 			const randomQuery = MoreController.radomNumber(data);

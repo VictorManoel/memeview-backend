@@ -12,18 +12,16 @@ class MoreController {
 	}
 
 	// Loop for generate a radom list of 50 videos
-	async query(index, randomQuery) {
+	async query(pageToken, randomQuery) {
 		let result = null;
 
 		for (let i = 1; i < randomQuery; i++) {
-			result = await youtube.playlistItems.list({
-				playlistId: process.env.PLAYLIST_ID,
-				pageToken: index,
-				part: "snippet",
-				maxResults: 50
+			result = await youtube({
+				maxResults: 50,
+				pageToken
 			});
 
-			index = result.data.nextPageToken;
+			pageToken = result.data.nextPageToken;
 		}
 
 		return result.data;
@@ -31,15 +29,17 @@ class MoreController {
 
 	// From list of 50 videos, choose 6 randomly to recommendeds
 	async getVideos(data) {
-		const totalItems = data.items,
-			numbers = [],
-			items = [];
+		const totalItems = data.items;
+		const numbers = [];
+		const items = [];
+		let video = 0;
 
-		for (let video = 0; video < 6; ) {
-			let number = (await Math.floor(Math.random() * 50)) + 1;
+		while (video < 6) {
+			let number = Math.floor(Math.random() * 50) + 1;
+
 			if (!numbers.includes(number)) {
 				if (totalItems[number]) {
-					items.push(totalItems[number]);
+					items.push(totalItems[number].snippet);
 					video++;
 				}
 				numbers.push(number);
