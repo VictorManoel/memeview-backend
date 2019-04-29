@@ -10,12 +10,18 @@ class AppController {
 
 			// Query
 			const { data } = await youtube({
-				maxResults: 24,
+				maxResults: 5,
 				pageToken
 			});
 
+			// Pagination
+			const hasMore = data.nextPageToken ? true : false;
+			const { nextPageToken } = data;
+
+			// Response
 			const result = {
-				nextPageToken: data.nextPageToken,
+				hasMore,
+				nextPageToken,
 				items: data.items
 			};
 

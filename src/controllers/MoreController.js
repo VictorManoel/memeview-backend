@@ -15,7 +15,7 @@ class MoreController {
 	async query(pageToken, randomQuery) {
 		let result = null;
 
-		for (let i = 1; i < randomQuery; i++) {
+		for (let page = 1; page < randomQuery; page++) {
 			result = await youtube({
 				maxResults: 50,
 				pageToken
