@@ -15,8 +15,8 @@ class AppController {
 			});
 
 			// Pagination
-			const hasMore = data.nextPageToken ? true : false;
 			const { nextPageToken } = data;
+			const hasMore = nextPageToken ? true : false;
 
 			// Response
 			const result = {
